@@ -6,44 +6,22 @@ const width = Dimensions.get('window').width
 const Welcome = () => {
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
-                <Image source={require('../../assets/g12.png')}
-                    style={{
-                        height: 75,
-                        width: 75,
-                        resizeMode: 'contain'
-                    }} />
-                <Text style={{
-                    fontSize: 28,
-                    fontWeight: 'bold',
-                    color: 'black',
-                    textAlign: 'center',
-                    flex: 1
-                }}>Tamang FoodService</Text>
+            <View style={styles.containerChild}>
+                <Image source={require('../../assets/g12.png')} />
             </View>
-            <View style={styles.image}>
-                <Image source={require('../../assets/Illustration.png')}
-                    style={{
-                        flex: 1,
-                        resizeMode: 'contain'
-                    }} />
-            </View>
-            <View style={styles.text}>
-                <Text style={{
-                    fontSize: 28,
-                    fontWeight: 'bold',
-                    marginBottom: 20
-                }}>Welcome</Text>
-                <Text style={{
-                    fontSize: 16,
-                    textAlign: 'center',
-                    color: '#3A3A3A'
-                }}>It’s a pleasure to meet you. We are excited that you’re here so let’s get started!</Text>
-            </View>
-            <View style={styles.footer}>
-                <TouchableOpacity style={styles.containerButton}>
-                    <Text style={styles.textButton}>GET STARTED</Text>
-                </TouchableOpacity>
+            <View style={styles.containerChild}>
+                <View style={[styles.bodyChild]}>
+                    <Text style={{
+                        fontSize: 24,
+                        fontWeight: 'bold',
+                        color: '#EEA743'
+                    }}>Welcome to my app</Text>
+                </View>
+                <View style={[styles.bodyChild]}>
+                    <TouchableOpacity style={styles.containerButton}>
+                        <Text style={styles.textButton}>Get started</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </SafeAreaView>
     )
@@ -59,41 +37,28 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         width: width
     },
-    header: {
+    containerChild: {
         flex: 1,
-        backgroundColor: 'white',
+        width: width,
         justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-        display: 'flex',
-        width: width - 80,
+        alignItems: 'center'
     },
-    image: {
-        flex: 1.5,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    text: {
-        flex: 1,
-        justifyContent: 'center',
-        width: width - 80,
-        alignItems: 'center',
-    },
-    footer: {
+    bodyChild: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
     containerButton: {
-        width: width - 20,
+        width: width - 130,
         height: 60,
-        borderRadius: 12,
+        borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#EEA347'
+        backgroundColor: '#EEA743',
     },
     textButton: {
-        fontSize: 14,
+        fontSize: 18,
+        fontWeight: 'bold',
         color: 'white'
     }
 })

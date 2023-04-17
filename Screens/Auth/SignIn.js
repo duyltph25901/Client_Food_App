@@ -1,6 +1,5 @@
-import { StyleSheet, Text, View, SafeAreaView, TextInput, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
 
 const width = Dimensions.get('window').width
 
@@ -9,71 +8,74 @@ const SignIn = () => {
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <Text style={{
-                    color: 'black',
-                    fontSize: 16,
-                    fontWeight: 'bold'
-                }}>Sign in</Text>
+                    fontSize: 34,
+                    fontWeight: 'bold',
+                    color: 'white'
+                }}>Login</Text>
             </View>
-            <View style={styles.welcome}>
-                <Text style={{
-                    fontSize: 33,
-                    marginBottom: 10
-                }}>Welcome to Tamang Food Services</Text>
-            </View>
-            <View style={styles.input}>
-                <Text style={styles.textLabel}>EMAIL ADDRESS</Text>
-                <TextInput placeholder='Email' style={styles.textInput} keyboardType='email-address' />
-                <View style={styles.divider} />
-                <Text style={styles.textLabel}>PASSWORD</Text>
-                <TextInput placeholder='Password' style={styles.textInput} secureTextEntry={true} />
-                <View style={styles.divider} />
-                <TouchableOpacity style={{
-                    alignSelf: 'center',
-                    marginVertical: 10,
-                }}>
+            <View style={styles.body}>
+                <View style={styles.bodyChild}>
                     <Text style={{
-                        fontSize: 12,
-                        color: '#868686'
-                    }}>Forget Password?</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.containerButton}>
-                    <Text style={{ color: 'white' }}>SIGN IN</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.createAccount}>
-                <Text style={{
-                    fontSize: 12
-                }}>Don't have an account? </Text>
-                <TouchableOpacity>
+                        fontSize: 24,
+                        fontWeight: 'bold',
+                        color: '#EEA743',
+                        marginBottom: 10
+                    }}>
+                        Welcome back
+                    </Text>
                     <Text style={{
-                        fontSize: 14,
-                        color: '#EEA743'
-                    }}>Create new account </Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.socialMedia}>
-                <TouchableOpacity style={{
-                    width: width - 20,
-                    height: 60,
-                    borderRadius: 12,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginVertical: 3,
-                    backgroundColor: '#395998'
-                }}>
-                    <Text style={{ color: 'white' }}>CONNECT WITH FACEBOOK</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{
-                    width: width - 20,
-                    height: 60,
-                    borderRadius: 12,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginVertical: 3,
-                    backgroundColor: '#4285F4'
-                }}>
-                    <Text style={{ color: 'white' }}>CONNECT WITH GOOGLE</Text>
-                </TouchableOpacity>
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        color: '#686868'
+                    }}>
+                        Login to your account
+                    </Text>
+                </View>
+                <View style={styles.bodyChild}>
+                    <TextInput style={styles.input}
+                        placeholder='Email' />
+                    <TextInput style={styles.input}
+                        placeholder='Password' />
+                    <View style={{
+                        width: width - 30,
+                        justifyContent: 'flex-end',
+                        alignItems: 'flex-end',
+                    }}>
+                        <TouchableOpacity style={{
+                            padding: 12,
+                        }}>
+                            <Text>Forgot password?</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.bodyChild}>
+                    <View style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <TouchableOpacity style={styles.containerButton}>
+                            <Text style={styles.textButton}>Login</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flex: 1,
+                    }}>
+                        <Text style={{
+                            fontSize: 12,
+                        }}>Don't have an account? </Text>
+                        <TouchableOpacity>
+                            <Text style={{
+                                fontSize: 14,
+                                fontWeight: 'bold',
+                                color: '#EEA743'
+                            }}>SIGN UP</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </View>
         </SafeAreaView>
     )
@@ -83,40 +85,38 @@ export default SignIn
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: '#EEA743'
     },
     header: {
-        flex: .2,
+        flex: 2,
         justifyContent: 'center',
         alignItems: 'center',
+        width: width,
     },
-    welcome: {
-        flex: 1,
+    body: {
+        flex: 8,
         justifyContent: 'center',
-        width: width - 20,
+        alignItems: 'center',
+        backgroundColor: 'white',
+        width: width,
+        borderTopLeftRadius: 100
+    },
+    bodyChild: {
+        flex: 8 / 3,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     input: {
-        flex: 2,
         width: width - 20,
-        justifyContent: 'center',
-    },
-    textLabel: {
-        fontSize: 16,
-        color: '#868686',
-        marginBottom: 10
-    },
-    textInput: {
-        fontSize: 16,
-        marginBottom: 10,
-    },
-    divider: {
-        width: width - 20,
-        height: 1,
-        backgroundColor: '#eaeaea',
-        marginBottom: 10
+        height: 60,
+        borderRadius: 12,
+        paddingHorizontal: 12,
+        backgroundColor: '#DDDDDD',
+        marginBottom: 12,
+        fontSize: 14
     },
     containerButton: {
         width: width - 20,
@@ -124,18 +124,11 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#EEA743',
+        backgroundColor: '#EEA743'
     },
-    createAccount: {
-        flex: .5,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: width - 80,
-        alignItems: 'center',
-    },
-    socialMedia: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+    textButton: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: 'white'
     }
 })

@@ -8,6 +8,6 @@ import {
 
 export default function App() {
   return (
-    <SignIn />
+    <SignUp />
   );
 }

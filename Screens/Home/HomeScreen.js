@@ -88,15 +88,17 @@ const HomeScreen = () => {
 
     const handleSearchFoodName = async () => {
         if (!keySearch || String(keySearch).length === 0) {
+            setLabelTitle(labelDefault)
             getHomeFood()
 
             return false
         }
 
         setLoading(true)
+        setData([])
         setLabelTitle(`Kết quả tìm kiếm cho ${keySearch}:`)
 
-        const searchAPI = 'handle-search-product-by-name'
+        const searchAPI = '/handle-search-product-by-name'
         const urlSearch = `${url}${searchAPI}`
 
         const objectSearch = {
@@ -115,8 +117,13 @@ const HomeScreen = () => {
                 return res.json()
             })
             .then((data) => {
-                setData([])
-                console.log(data);
+                // setData(data)
+                console.log(
+                    `
+                    \n>>>>> Check data res search: ${JSON.stringify(data.results)}\n
+                    `
+                )
+                setData(data.results)
             })
             .catch((err) => {
                 Alert.alert('Oppps', err)
@@ -174,7 +181,14 @@ const HomeScreen = () => {
                     }}
                         placeholder='Tìm kiếm tên món ăn...'
                         value={keySearch}
-                        onChangeText={(text) => setKeySearch(text)} />
+                        onChangeText={(text) => {
+                            if (!text) {
+                                getHomeFood()
+                                setLabelTitle(labelDefault)
+                            }
+                            setKeySearch(text)
+                        }}
+                        onSubmitEditing={handleSearchFoodName} />
                     <TouchableOpacity style={{
                         paddingStart: 12,
                     }}
@@ -185,7 +199,7 @@ const HomeScreen = () => {
             </View>
             <View style={styles.containerTabBar}>
                 <Text style={{
-                    fontSize: 24,
+                    fontSize: 18,
                     fontWeight: 'bold',
                 }}>{labelTitle}</Text>
             </View>

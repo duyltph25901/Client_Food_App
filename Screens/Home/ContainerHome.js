@@ -6,6 +6,7 @@ import HomeScreen from './HomeScreen'
 import CartScreen from './CartScreen'
 import OrderScreen from './OrderScreen'
 import ProfileScreen from './ProfileScreen'
+import CategoryScreen from './CategoryScreen'
 
 const ContainerHomeScreen = () => {
 
@@ -20,6 +21,9 @@ const ContainerHomeScreen = () => {
                             let iconName = ''
                             if (route.name == 'HomeScreen') {
                                 iconName = focused ? 'ios-home' : 'ios-home-outline'
+                                size = focused ? size + 7 : size + 3
+                            } else if (route.name == 'CategoryScreen') {
+                                iconName = focused ? 'ios-list' : 'ios-list-outline'
                                 size = focused ? size + 7 : size + 3
                             } else if (route.name == 'CartScreen') {
                                 iconName = focused ? 'cart' : 'cart-outline'
@@ -40,6 +44,7 @@ const ContainerHomeScreen = () => {
                         headerShown: false
                     })}>
                     <Tab.Screen name='HomeScreen' component={HomeScreen} />
+                    <Tab.Screen name='CategoryScreen' component={CategoryScreen} />
                     <Tab.Screen name='CartScreen' component={CartScreen} />
                     <Tab.Screen name='OrderScreen' component={OrderScreen} />
                     <Tab.Screen name='ProfileScreen' component={ProfileScreen} />

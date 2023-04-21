@@ -1,9 +1,12 @@
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { useNavigation } from '@react-navigation/native'
 
 const width = Dimensions.get('window').width
 
 const Welcome = () => {
+    const navigation = useNavigation()
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.containerChild}>
@@ -18,7 +21,10 @@ const Welcome = () => {
                     }}>Welcome to my app</Text>
                 </View>
                 <View style={[styles.bodyChild]}>
-                    <TouchableOpacity style={styles.containerButton}>
+                    <TouchableOpacity style={styles.containerButton}
+                        onPress={() => {
+                            navigation.navigate('SignIn')
+                        }}>
                         <Text style={styles.textButton}>Get started</Text>
                     </TouchableOpacity>
                 </View>

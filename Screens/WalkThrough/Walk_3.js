@@ -22,7 +22,7 @@ const Walk_3 = () => {
                 }}>Tamang FoodService</Text>
             </View>
             <View style={styles.image}>
-                <Image source={require('../../assets/Illustrations_4.png')}
+                <Image
                     style={{
                         flex: 1,
                         resizeMode: 'contain'
@@ -41,7 +41,7 @@ const Walk_3 = () => {
                 }}>Easily find your type of food craving and you’ll get delivery in wide range.</Text>
             </View>
             <View stle={{ flex: 1 }}>
-                <Image source={require('../../assets/Indicator_3.png')} />
+                <Image />
             </View>
             <View style={styles.footer}>
                 <TouchableOpacity style={styles.containerButton}>

@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import HomeScreen from './HomeScreen'
 import CartScreen from './CartScreen'
 import OrderScreen from './OrderScreen'
-import ProfileScreen from './ProfileScreen'
+import SettingScreen from './SettingScreen'
 import CategoryScreen from './CategoryScreen'
 
 const ContainerHomeScreen = () => {
@@ -29,10 +29,10 @@ const ContainerHomeScreen = () => {
                                 iconName = focused ? 'cart' : 'cart-outline'
                                 size = focused ? size + 7 : size + 3
                             } else if (route.name == 'OrderScreen') {
-                                iconName = focused ? 'time-outline' : 'time-outline'
+                                iconName = focused ? 'time' : 'time-outline'
                                 size = focused ? size + 7 : size + 3
-                            } else if (route.name == 'ProfileScreen') {
-                                iconName = focused ? 'person-circle-sharp' : 'person-circle-outline'
+                            } else if (route.name == 'SettingScreen') {
+                                iconName = focused ? 'md-settings' : 'md-settings-outline'
                                 size = focused ? size + 7 : size + 3
                             }
 
@@ -47,7 +47,7 @@ const ContainerHomeScreen = () => {
                     <Tab.Screen name='CategoryScreen' component={CategoryScreen} />
                     <Tab.Screen name='CartScreen' component={CartScreen} />
                     <Tab.Screen name='OrderScreen' component={OrderScreen} />
-                    <Tab.Screen name='ProfileScreen' component={ProfileScreen} />
+                    <Tab.Screen name='SettingScreen' component={SettingScreen} />
                 </Tab.Navigator>
             </NavigationContainer>
         </>

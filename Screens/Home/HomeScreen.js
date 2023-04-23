@@ -11,6 +11,7 @@ const HomeScreen = () => {
     const labelDefault = 'Gợi ý cho bạn'
     const url = 'http://192.168.1.14:3000/api/v1'
     const getAllFoodAPI = '/get-all-product'
+    const searchAPI = '/handle-search-product-by-name'
 
     const [data, setData] = useState([])
     const [objectCurrent, setObjectCurrent] = useState({})
@@ -89,7 +90,7 @@ const HomeScreen = () => {
     const handleSearchFoodName = async () => {
         if (!keySearch || String(keySearch).length === 0) {
             setLabelTitle(labelDefault)
-            getHomeFood()
+            // getHomeFood()
 
             return false
         }
@@ -98,7 +99,6 @@ const HomeScreen = () => {
         setData([])
         setLabelTitle(`Kết quả tìm kiếm cho ${keySearch}:`)
 
-        const searchAPI = '/handle-search-product-by-name'
         const urlSearch = `${url}${searchAPI}`
 
         const objectSearch = {

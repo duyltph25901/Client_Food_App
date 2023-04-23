@@ -259,7 +259,7 @@ const HomeScreen = () => {
                                                                             textDecorationColor: '#EEA743',
                                                                             color: '#DDDDDD',
                                                                             fontStyle: 'italic'
-                                                                        }}>{formatPriceByVnd(item.price)} đ</Text>
+                                                                        }}>{formatPriceByVnd(item.price)}</Text>
                                                                         <Text style={{
                                                                             fontSize: 10,
                                                                             fontWeight: 'bold',
@@ -271,7 +271,7 @@ const HomeScreen = () => {
                                                                         fontSize: 14,
                                                                         fontWeight: 'bold',
                                                                         color: 'red'
-                                                                    }}>{formatPriceByVnd(item.price - (item.price * item.discount / 100))} đ</Text>
+                                                                    }}>{formatPriceByVnd(item.price - (item.price * item.discount / 100))}</Text>
                                                                 </View>
                                                             )
                                                             : (
@@ -280,11 +280,6 @@ const HomeScreen = () => {
                                                                         fontSize: 14,
                                                                         fontWeight: 'bold',
                                                                     }}>{formatPriceByVnd(item.price)}</Text>
-                                                                    <Text style={{
-                                                                        fontSize: 14,
-                                                                        fontWeight: 'bold',
-                                                                        color: '#EEA743'
-                                                                    }}> đ</Text>
                                                                 </View>
                                                             )
                                                     }

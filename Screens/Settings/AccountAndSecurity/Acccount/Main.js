@@ -57,7 +57,7 @@ const AccountScreen = () => {
                 navigation.navigate('Email')
                 break
             } case 4: {
-                navigation.navigate('Password')
+                navigation.navigate('ContainerPassword')
                 break
             }
         }

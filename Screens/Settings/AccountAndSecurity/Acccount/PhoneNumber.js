@@ -98,7 +98,7 @@ const PhoneNumber = () => {
     }
 
 
-    const getObjectCurrent = async (req, res) => {
+    const getObjectCurrent = async () => {
         try {
             const value = await AsyncStorage.getItem('ObjectCurrent')
             if (value !== null) {

@@ -9,8 +9,8 @@ const SignIn = () => {
     const navigation = useNavigation()
     const url = 'http://192.168.1.14:3000/api/v1'
     const login = '/handle-login-user'
-    const [email, setEmail] = useState('beedyto@gmail.com   ')
-    const [pass, setPass] = useState('123123')
+    const [email, setEmail] = useState('beedyto2@gmail.com')
+    const [pass, setPass] = useState('01663378799aBC')
 
     const handleLogin = async () => {
         const user = {

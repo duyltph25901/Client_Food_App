@@ -114,11 +114,7 @@ const CategoryScreen = () => {
                             setKeySearch(text)
                         }}
                         onSubmitEditing={handleSearchFoodName} />
-                    <TouchableOpacity style={{
-                        paddingStart: 12,
-                    }}>
-                        <Ionic name={'search-outline'} size={30} color={'#EEA743'} />
-                    </TouchableOpacity>
+                    <Ionic name={'search-outline'} size={30} color={'#EEA743'} />
                 </View>
             </View>
             <View style={styles.containerFilterByCategory}>

@@ -1,5 +1,5 @@
-import ContainerHomeScreen from "./ContainerHome"
+import BottomHome from "./BottomHome"
 
 export {
-    ContainerHomeScreen
+    BottomHome
 }

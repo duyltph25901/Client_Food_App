@@ -99,61 +99,71 @@ const AccountScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.containerHeader}>
-                <TouchableOpacity onPress={back}>
-                    <Ionic name='chevron-back-outline' size={30} color={'#EEA743'} />
-                </TouchableOpacity>
-                <Text style={styles.textTitle}>Tài khoản & bảo mật</Text>
-            </View>
-            <View style={styles.body}>
-                <FlatList data={options}
-                    keyExtractor={(item, index) => item.id}
-                    renderItem={({ item }) => {
-                        return (
-                            <TouchableOpacity style={styles.containerItem}
-                                onPress={() => handleNavigation(item)}>
-                                <Text style={styles.textItem}>{item.name}</Text>
-                                {
-                                    isLoading
-                                        ? (
-                                            <View>
-                                                <ActivityIndicator />
-                                            </View>
+            {
+                isLoading
+                    ? (
+                        <ActivityIndicator />
+                    )
+                    : (
+                        <>
+                            <View style={styles.containerHeader}>
+                                <TouchableOpacity onPress={back}>
+                                    <Ionic name='chevron-back-outline' size={30} color={'#EEA743'} />
+                                </TouchableOpacity>
+                                <Text style={styles.textTitle}>Tài khoản & bảo mật</Text>
+                            </View>
+                            <View style={styles.body}>
+                                <FlatList data={options}
+                                    keyExtractor={(item, index) => item.id}
+                                    renderItem={({ item }) => {
+                                        return (
+                                            <TouchableOpacity style={styles.containerItem}
+                                                onPress={() => handleNavigation(item)}>
+                                                <Text style={styles.textItem}>{item.name}</Text>
+                                                {
+                                                    isLoading
+                                                        ? (
+                                                            <View>
+                                                                <ActivityIndicator />
+                                                            </View>
+                                                        )
+                                                        :
+                                                        <View style={{ marginEnd: 7 }}>
+                                                            {
+                                                                (item.name == 'Tên người dùng')
+                                                                    ? (
+                                                                        <Text>{userName}</Text>
+                                                                    )
+                                                                    : null
+                                                            }
+                                                            {
+                                                                (item.name == 'Email')
+                                                                    ? (
+                                                                        <Text>{email}</Text>
+                                                                    )
+                                                                    : null
+                                                            }
+                                                            {
+                                                                (item.name == 'Điện thoại')
+                                                                    ? (
+                                                                        <Text>{phoneNumber}</Text>
+                                                                    ) : null
+                                                            }
+                                                        </View>
+                                                }
+                                                {
+                                                    (item.name != 'Tên người dùng')
+                                                        ? (
+                                                            <Ionic name={'chevron-forward-outline'} size={20} color={'#EEA743'} />
+                                                        ) : null
+                                                }
+                                            </TouchableOpacity>
                                         )
-                                        :
-                                        <View style={{ marginEnd: 7 }}>
-                                            {
-                                                (item.name == 'Tên người dùng')
-                                                    ? (
-                                                        <Text>{userName}</Text>
-                                                    )
-                                                    : null
-                                            }
-                                            {
-                                                (item.name == 'Email')
-                                                    ? (
-                                                        <Text>{email}</Text>
-                                                    )
-                                                    : null
-                                            }
-                                            {
-                                                (item.name == 'Điện thoại')
-                                                    ? (
-                                                        <Text>{phoneNumber}</Text>
-                                                    ) : null
-                                            }
-                                        </View>
-                                }
-                                {
-                                    (item.name != 'Tên người dùng')
-                                        ? (
-                                            <Ionic name={'chevron-forward-outline'} size={20} color={'#EEA743'} />
-                                        ) : null
-                                }
-                            </TouchableOpacity>
-                        )
-                    }} />
-            </View>
+                                    }} />
+                            </View>
+                        </>
+                    )
+            }
         </SafeAreaView>
     )
 }

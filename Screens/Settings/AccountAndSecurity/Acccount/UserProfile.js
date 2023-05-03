@@ -5,11 +5,21 @@ import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Dialog from "react-native-dialog"
 import DateTimePickerModal from "react-native-modal-datetime-picker"
+import DropDownPicker from 'react-native-dropdown-picker'
 import DateTime from '../../../../controllers/DateTime'
 
 const width = Dimensions.get('window').width
 
 const UserProfile = () => {
+    // api 
+    const url = 'http://192.168.1.14:3000/api/v1'
+    const updateAPI = '/handle-update-user-info'
+    const findUserByIDAPI = '/find-user-by-id'
+    // array
+    const genders = [
+        { value: 0, label: 'Nữ' },
+        { value: 1, label: 'Nam' }
+    ]
     const optionArr = [
         {
             id: 0,
@@ -28,27 +38,22 @@ const UserProfile = () => {
             name: 'Ngày sinh'
         },
     ]
+    // navigation
     const navigation = useNavigation()
-    const [objectCurrent, setObjectCurrent] = useState({})
-    const [isLoading, setLoading] = useState(true)
-    const [isOpen, setOpen] = useState(false)
-    const [options, setOptions] = useState(optionArr)
-    const [flagDialogUpdate, setFlagDialogUpdate] = useState(false)
-    const url = 'http://192.168.1.14:3000/api/v1'
-    const updateUserNameAPI = '/handle-update-user-name'
-    const updateBioAPI = '/handle-update-bio'
-    const updateGenderAPI = '/handle-update-gender'
-    const updateDOBAPI = '/handle-update-dob'
-    const findUserByIDAPI = '/find-user-by-id'
-    const flagUserName = 0, flagBio = 1, flagGender = 2
-    const genders = [
-        { value: 0, label: 'Nữ' },
-        { value: 1, label: 'Nam' }
-    ]
-    const [flag, setFlag] = useState(10)
-    const [userNameUpdate, setUserNameUpdate] = useState('')
-    const [bioUpdate, setBioUpdate] = useState('')
-    const [genderUpdate, setGenderUpdate] = useState(0)
+    // state
+    const [objectCurrent, setObjectCurrent] = useState({}) // get object from async storage
+    const [isLoading, setLoading] = useState(true) // show activity indicator
+    const [isOpen, setOpen] = useState(false) // show date time picker dialog
+    const [options, setOptions] = useState(optionArr) // data flatlist
+    const [flagDialogUpdate, setFlagDialogUpdate] = useState(false) // show dialog update information
+    const [flag, setFlag] = useState(10) // value check category dialog (ex: dialog update user name or dialog update bio...)
+    const [items, setItem] = useState(genders) // data genders 
+    const [isOpenDropDownPicker, setOpenDropDownPicker] = useState(false) // check status dropdown picker
+    const [userNameUpdate, setUserNameUpdate] = useState('') // value input user name update default
+    const [bioUpdate, setBioUpdate] = useState('') // value input bio update default
+    const [genderUpdate, setGenderUpdate] = useState(0) // value input gender update default
+    // flag 
+    const flagUserName = 0, flagBio = 1, flagGender = 2, flagDOB = 3
 
     useEffect(() => {
         getObjectCurrent()
@@ -68,9 +73,9 @@ const UserProfile = () => {
                     `
                 )
                 setObjectCurrent(JSON.parse(value))
-                setUserNameUpdate(objectCurrent.userName)
-                setBioUpdate(objectCurrent.bio)
-                setGenderUpdate(objectCurrent.gender)
+                // setUserNameUpdate(objectCurrent.userName)
+                // setBioUpdate(objectCurrent.bio)
+                // setGenderUpdate(objectCurrent.gender)
             }
         } catch (e) {
             console.log(
@@ -81,69 +86,6 @@ const UserProfile = () => {
         } finally {
             setLoading(false)
         }
-    }
-
-    const handleUpdateDOBUser = async (date) => {
-        setOpen(false)
-
-        const formattedDate = DateTime.formatDateTime(date)
-        const timeCurrent = DateTime.getTimeCurrent()
-
-        console.log(
-            `
-            \n>>>>> Check date user update: ${formattedDate}\n>>>>> Check date time current: ${timeCurrent}\n
-            `
-        )
-
-        const newObject = {
-            dob: formattedDate,
-            timeCurrent: timeCurrent,
-            idUser: objectCurrent.id
-        }
-
-        const urlUpdateDOB = `${url}${updateDOBAPI}`
-        fetch(urlUpdateDOB, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newObject)
-        })
-            .then((res) => {
-                const code = res.status
-
-                if (code != 200) {
-                    Alert.alert('Opps', 'Cập nhật ngày sinh không thành công!')
-                    return false
-                }
-
-                Alert.alert('Thành công', 'Cập nhật ngày sinh thành công!')
-
-                return res.json()
-            })
-            .catch((err) => {
-                Alert.alert('Opps', err.message)
-            })
-            .finally(async () => {
-                clearAsyncStorage()
-                try {
-                    const newURL = `${url}${findUserByIDAPI}/${objectCurrent.id}`
-                    const res = await fetch(newURL)
-                    const json = await res.json()
-                    storeData(json)
-
-                    console.log(
-                        `
-                        \n>>>>> Message: Update async storage successful!\n
-                        `
-                    )
-
-                    getObjectCurrent()
-                } catch (err) {
-                    console.log(err.message)
-                }
-            })
     }
 
     const clearAsyncStorage = async () => {
@@ -194,6 +136,14 @@ const UserProfile = () => {
         }
     }
 
+    const handleUpdateDOBUser = async (date) => {
+        setOpen(false)
+
+        const formattedDate = DateTime.formatDateTime(date)
+
+        handleUpdateInformationUser(formattedDate, flagDOB)
+    }
+
     const handleUpdateUserName = async () => {
         if (!userNameUpdate) {
             Alert.alert('Opps', 'Vui lòng điền đầy đủ thông tin!')
@@ -203,54 +153,7 @@ const UserProfile = () => {
             return false
         }
 
-        const newObject = {
-            userName: userNameUpdate,
-            currentTime: DateTime.getTimeCurrent(),
-            idUser: objectCurrent.id
-        }
-        const urlUpdateUserName = `${url}${updateUserNameAPI}`
-        fetch(urlUpdateUserName, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newObject)
-        })
-            .then((res) => {
-                const code = res.status
-
-                if (code != 200) {
-                    Alert.alert('Opps', 'Cập nhật tên đăng nhập không thành công!')
-                    return false
-                }
-
-                Alert.alert('Opps', 'Cập nhật tên đăng nhập thành công!')
-
-                return res.json()
-            })
-            .catch((err) => {
-                Alert.alert('Opps', err.message)
-            })
-            .finally(async () => {
-                clearAsyncStorage()
-                try {
-                    const newURL = `${url}${findUserByIDAPI}/${objectCurrent.id}`
-                    const res = await fetch(newURL)
-                    const json = await res.json()
-                    storeData(json)
-
-                    console.log(
-                        `
-                        \n>>>>> Message: Update async storage successful!\n
-                        `
-                    )
-
-                    getObjectCurrent()
-                } catch (err) {
-                    console.log(err.message)
-                }
-            })
+        handleUpdateInformationUser(userNameUpdate, flagUserName)
     }
 
     const handleUpdateBio = async () => {
@@ -262,14 +165,41 @@ const UserProfile = () => {
             return false
         }
 
-        const newObject = {
-            bio: bioUpdate,
-            updated_at: DateTime.getTimeCurrent(),
-            idUser: objectCurrent.id
+        handleUpdateInformationUser(bioUpdate, flagBio)
+    }
+
+    const handleUpdateGender = async () => {
+        if (genderUpdate == objectCurrent.gender) {
+            Alert.alert('Opps', 'Giới tính không thay đổi!')
+            return
         }
-        const urlUpdateBio = `${url}${updateBioAPI}`
-        fetch(urlUpdateBio, {
-            method: 'POST',
+
+        handleUpdateInformationUser(genderUpdate, flagGender)
+    }
+
+    const handleUpdateInformationUser = async (valueUpdate, flagUpdateType) => {
+        const messageSuccess = (flag == flagBio)
+            ? 'Cập nhật bio thành công!'
+            : (flag == flagUserName ? 'Cập nhật tên đăng nhập thành công!'
+                : (flag == flagGender) ? 'Cập nhật giới tính thành công!' : 'Cập nhật ngày sinh thành công!')
+        const messageFail = (flag == flagBio)
+            ? 'Cập nhật bio không thành công!'
+            : (
+                (flag == flagUserName)
+                    ? 'Cập nhật tên đăng nhập không thành công!'
+                    : (
+                        (flag == flagGender) ? 'Cập nhật giới tính không thành công!' : 'Cập nhật ngày sinh không thành công!'
+                    )
+            )
+        const urlUpdate = `${url}${updateAPI}`
+        const newObject = {
+            fieldUpdateValue: valueUpdate,
+            updated_at: DateTime.getTimeCurrent(),
+            idUser: objectCurrent.id,
+            flag: flagUpdateType
+        }
+        fetch(urlUpdate, {
+            method: 'post',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -280,19 +210,50 @@ const UserProfile = () => {
                 const code = res.status
 
                 if (code != 200) {
-                    Alert.alert('Opps', 'Cập nhật bio không thành công!')
-                    return false
+                    Alert.alert('Opps', messageFail)
+                    return
                 }
 
-                Alert.alert('Thành công', 'Cập nhật bio thành công')
+                Alert.alert('Thành công', messageSuccess)
+
                 return res.json()
             })
             .catch((err) => {
-                Alert.alert('Opps', '')
+                Alert.alert('Opps', err.message)
+            })
+            .finally(() => {
+                loadDataAfterUpdate()
+                clearInput()
             })
     }
 
-    const handleUpdateGender = async () => { }
+    const loadDataAfterUpdate = async () => {
+        clearAsyncStorage()
+        try {
+            // handle add new value storage
+            const newURL = `${url}${findUserByIDAPI}/${objectCurrent.id}`
+            const res = await fetch(newURL)
+            const json = await res.json()
+            storeData(json)
+
+            console.log(
+                `
+                        \n>>>>> Message: Update async storage successful!\n
+                        `
+            )
+
+            // change value ui
+            getObjectCurrent()
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+    const clearInput = () => {
+        setUserNameUpdate('')
+        setBioUpdate('')
+        setGenderUpdate(0)
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -405,6 +366,23 @@ const UserProfile = () => {
                                     placeholder='Mô tả về bạn' />
                             )
                         }
+                        {
+                            (flag == flagGender) && (
+                                <DropDownPicker
+                                    schema={{
+                                        label: 'label',
+                                        value: 'value'
+                                    }}
+                                    open={isOpenDropDownPicker}
+                                    value={genderUpdate}
+                                    items={items}
+                                    setOpen={setOpenDropDownPicker}
+                                    setValue={setGenderUpdate}
+                                    setItems={setItem}
+                                    style={styles.dropDownPicker}
+                                />
+                            )
+                        }
                         <Dialog.Button label="Hủy" onPress={() => setFlagDialogUpdate(false)} />
                         <Dialog.Button label="Cập nhật" onPress={handleUpdateUser} />
                     </Dialog.Container>
@@ -503,5 +481,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         fontSize: 14,
         color: 'white'
+    },
+    dropDownPicker: {
+        marginVertical: 30,
+        width: width - 200,
+        alignSelf: 'center'
     }
 })

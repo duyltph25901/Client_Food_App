@@ -67,6 +67,7 @@ const AuthUser = () => {
                     <TextInput style={styles.textInput}
                         keyboardType='visible-password'
                         placeholder='Nhập mật khẩu cũ'
+                        placeholderTextColor={'gray'}
                         secureTextEntry={true}
                         value={pass}
                         onChangeText={(text) => setPass(text)} />

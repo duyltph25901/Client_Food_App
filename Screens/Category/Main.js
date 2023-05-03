@@ -106,6 +106,7 @@ const CategoryScreen = () => {
                         color: 'black'
                     }}
                         placeholder='Tìm kiếm tên món ăn...'
+                        placeholderTextColor={'gray'}
                         value={keySearch}
                         onChangeText={(text) => {
                             if (!text) {

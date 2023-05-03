@@ -123,6 +123,7 @@ const SettingScreen = () => {
                     <Text style={styles.textLabel}>Tài khoản của tôi</Text>
                 </View>
                 <FlatList data={settingAccounts}
+                    scrollEnabled={false}
                     keyExtractor={(item, index) => item.id}
                     renderItem={({ item }) => {
                         return (
@@ -143,6 +144,7 @@ const SettingScreen = () => {
                     <Text style={styles.textLabel}>Hỗ trợ</Text>
                 </View>
                 <FlatList data={supportsUser}
+                    scrollEnabled={false}
                     keyExtractor={(item, index) => item.id}
                     key={(item) => item.id}
                     renderItem={({ item }) => {

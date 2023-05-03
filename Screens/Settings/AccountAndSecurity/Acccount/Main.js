@@ -114,6 +114,7 @@ const AccountScreen = () => {
                             </View>
                             <View style={styles.body}>
                                 <FlatList data={options}
+                                    scrollEnabled={false}
                                     keyExtractor={(item, index) => item.id}
                                     renderItem={({ item }) => {
                                         return (

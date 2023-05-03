@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Dialog from "react-native-dialog"
 import DateTimePickerModal from "react-native-modal-datetime-picker"
 import DropDownPicker from 'react-native-dropdown-picker'
-import DateTime from '../../../../controllers/DateTime'
+import DateTime from '../../../../controllers/FormatData'
 
 const width = Dimensions.get('window').width
 

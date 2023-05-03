@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import { FlatGrid } from 'react-native-super-grid'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Ionic from 'react-native-vector-icons/Ionicons'
+import { useNavigation } from '@react-navigation/native'
+import Format from '../../controllers/FormatData'
 
 const width = Dimensions.get('window').width
 
@@ -12,6 +14,8 @@ const HomeScreen = () => {
     const url = 'http://192.168.1.14:3000/api/v1'
     const getAllFoodAPI = '/get-all-product'
     const searchAPI = '/handle-search-product-by-name'
+
+    const navigation = useNavigation()
 
     const [data, setData] = useState([])
     const [objectCurrent, setObjectCurrent] = useState({})
@@ -76,15 +80,6 @@ const HomeScreen = () => {
         } finally {
             setLoading(false)
         }
-    }
-
-    const formatPriceByVnd = (price) => {
-        let vnd = new Intl.NumberFormat('VN', {
-            style: 'currency',
-            currency: 'VND',
-        })
-
-        return `${vnd.format(price)}`
     }
 
     const handleSearchFoodName = async () => {
@@ -216,7 +211,8 @@ const HomeScreen = () => {
                                 spacing={5}
                                 renderItem={({ item }) => {
                                     return (
-                                        <TouchableOpacity style={styles.containerItem}>
+                                        <TouchableOpacity style={styles.containerItem}
+                                            onPress={() => { navigation.navigate('DetailsProductScreen', { item }) }}>
                                             <Text style={{
                                                 fontSize: 18,
                                                 fontWeight: 'bold',
@@ -255,7 +251,7 @@ const HomeScreen = () => {
                                                                             textDecorationColor: '#EEA743',
                                                                             color: '#DDDDDD',
                                                                             fontStyle: 'italic'
-                                                                        }}>{formatPriceByVnd(item.price)}</Text>
+                                                                        }}>{Format.formatPriceByVnd(item.price)}</Text>
                                                                         <Text style={{
                                                                             fontSize: 10,
                                                                             fontWeight: 'bold',
@@ -267,7 +263,7 @@ const HomeScreen = () => {
                                                                         fontSize: 14,
                                                                         fontWeight: 'bold',
                                                                         color: 'red'
-                                                                    }}>{formatPriceByVnd(item.price - (item.price * item.discount / 100))}</Text>
+                                                                    }}>{Format.formatPriceByVnd(item.price - (item.price * item.discount / 100))}</Text>
                                                                 </View>
                                                             )
                                                             : (
@@ -275,7 +271,7 @@ const HomeScreen = () => {
                                                                     <Text style={{
                                                                         fontSize: 14,
                                                                         fontWeight: 'bold',
-                                                                    }}>{formatPriceByVnd(item.price)}</Text>
+                                                                    }}>{Format.formatPriceByVnd(item.price)}</Text>
                                                                 </View>
                                                             )
                                                     }
